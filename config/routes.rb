@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/users/', to: 'people#show'
   resources :posts do
     resources :comments
+    resources :likes
   end
   
   
