@@ -1,0 +1,29 @@
+<h3><%=@post.person.name%><sub><%=@post.created_at%></sub></h3>
+
+<p><%=@post.body%></p>
+<h2>Comments</h2>
+<% @post.comments.each do |comment| %>
+  <p>
+    <strong>Commenter:</strong>
+    <%= comment.person.name %>
+  </p>
+
+  <p>
+    <strong>Comment:</strong>
+    <%=link_to comment.body, post_comment_path(@post, comment)%>
+  </p>
+<% end %>
+
+<h4>Add a comment:</h4>
+<%= form_with model: [ @post, @post.comments.build ] do |form| %>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <%= form.hidden_field :person_id, value: @post.person.id %>
+  <%= form.hidden_field :commentable_id, value: @post.id %>
+  <%= form.hidden_field :commentable_type, value: 'Post' %>
+
+    <%= form.submit %>
+  </p>
+<% end %>

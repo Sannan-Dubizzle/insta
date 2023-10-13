@@ -1,0 +1,17 @@
+<h1><%=@person.name%></h1>
+
+<ul>
+  <% @posts.each do |post| %>
+    <li>
+      <p><%=link_to post.body, post%><p>
+    </li>
+  <% end %>
+</ul>
+<h2>Friends</h2>
+<ul>
+  <% @friends.each do |friend| %>
+    <li> <p><%=link_to friend.name, friend%><p></li>
+  <% end %>
+</ul>
+<%=link_to 'Edit', edit_user_registration_path%>
+<%=link_to 'Log Out', destroy_user_session_path, data: { "turbo-method": :delete }%>

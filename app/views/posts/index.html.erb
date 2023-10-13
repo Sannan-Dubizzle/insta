@@ -1,0 +1,12 @@
+<h1>Posts</h1>
+<%if user_signed_in?%>
+<ul>
+  <% @posts.each do |post| %>
+    <li>
+      <p><%=link_to post.body, post%><p>
+      <p>by<p>
+      <p><%=link_to post.person.name, post.person%><p>
+    </li>
+  <% end %>
+</ul>
+<%end%>
