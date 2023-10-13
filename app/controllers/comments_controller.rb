@@ -15,11 +15,11 @@ class CommentsController < ApplicationController
     end 
     private
         def comment_params
-            params.require(:comment).permit(:person_id, :body)
-            p=Person.find(params[:comment][:person_id])
+            params.require(:comment).permit(:user_id, :body)
+            p=User.find(params[:comment][:user_id])
            return {
             'body' => params[:comment][:body],
-            'person' => p
+            'user' => p
            }
         end
 end
