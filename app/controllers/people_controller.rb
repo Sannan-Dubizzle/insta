@@ -3,15 +3,15 @@ class PeopleController < ApplicationController
   end
 
   def show
-    @person = Person.find(params[:id])
+    @person = User.find(1)
     @posts = @person.posts
     friends = []
 
-    Friendship.where('person1_id = ? OR person2_id = ?', @person.id, @person.id).each do |friend|
-      if friend.person1_id == @person.id
-        friends << Person.find(friend.person2_id)
+    Friendship.where('user1_id = ? OR user2_id = ?', @person.id, @person.id).each do |friend|
+      if friend.user1_id == @person.id
+        friends << User.find(friend.user2_id)
       else
-        friends << Person.find(friend.person1_id)
+        friends << User.find(friend.user1_id)
       end
     end
 
