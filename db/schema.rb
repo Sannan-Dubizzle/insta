@@ -10,25 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_13_063023) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_13_074345) do
   create_table "comments", charset: "utf8mb3", force: :cascade do |t|
     t.text "body"
-    t.bigint "person_id", null: false
+    t.bigint "user_id", null: false
     t.bigint "commentable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "commentable_type"
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
-    t.index ["person_id"], name: "index_comments_on_person_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "friendships", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "person1_id"
-    t.bigint "person2_id"
+    t.bigint "user1_id"
+    t.bigint "user2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["person1_id"], name: "index_friendships_on_person1_id"
-    t.index ["person2_id"], name: "index_friendships_on_person2_id"
+    t.index ["user1_id"], name: "index_friendships_on_user1_id"
+    t.index ["user2_id"], name: "index_friendships_on_user2_id"
   end
 
   create_table "people", charset: "utf8mb3", force: :cascade do |t|
@@ -41,8 +41,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_063023) do
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "person_id"
-    t.index ["person_id"], name: "index_posts_on_person_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
@@ -58,9 +58,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_13_063023) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "comments", "people"
+  add_foreign_key "comments", "users", column: "user_id"
   add_foreign_key "comments", "posts", column: "commentable_id"
-  add_foreign_key "friendships", "people", column: "person1_id"
-  add_foreign_key "friendships", "people", column: "person2_id"
-  add_foreign_key "posts", "people"
+  add_foreign_key "friendships", "users", column: "user1_id"
+  add_foreign_key "friendships", "users", column: "user2_id"
+  add_foreign_key "posts", "users", column: "user_id"
 end
