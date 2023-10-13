@@ -1,11 +1,11 @@
-<h3><%=@comment.person.name%><sub><%=@comment.created_at%></sub></h3>
+<h3><%=@comment.user.name%><sub><%=@comment.created_at%></sub></h3>
 
 <p><%=@comment.body%></p>
 <h2>Comments</h2>
 <% @comment.comments.each do |comment| %>
   <p>
     <strong>Commenter:</strong>
-    <%= comment.person.name %>
+    <%= comment.user.name %>
   </p>
 
   <p>
