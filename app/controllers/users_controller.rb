@@ -16,6 +16,8 @@ class UsersController < ApplicationController
     end
 
     @friends = friends.uniq  # Remove duplicates if any
+    
+    @requests =FriendRequest.where('user2_id = ?', @person.id)
 
   end
 end
