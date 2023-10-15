@@ -5,7 +5,7 @@
 <% @post.comments.each do |comment| %>
   <p>
     <strong>Commenter:</strong>
-    <%= comment.user.name %>
+    <%=link_to comment.user.name,user_path(comment.user_id) %>
   </p>
 
   <p>

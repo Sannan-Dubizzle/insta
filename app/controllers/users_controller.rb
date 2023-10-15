@@ -1,9 +1,9 @@
-class PeopleController < ApplicationController
+class UsersController < ApplicationController
   def index
+    @users = User.all
   end
-
   def show
-    @person = User.find(1)
+    @person = User.find(params[:id].to_i)
     @posts = @person.posts
     friends = []
 

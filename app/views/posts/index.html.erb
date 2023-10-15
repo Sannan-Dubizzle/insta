@@ -5,7 +5,7 @@
     <li>
       <p><%=link_to post.body, post%><p>
       <p>by<p>
-      <p><%=post.user.name%><p>
+      <p><%=link_to post.user.name, post.user%><p>
     </li>
   <% end %>
 </ul>
