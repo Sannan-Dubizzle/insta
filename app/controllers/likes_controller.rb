@@ -11,7 +11,7 @@ class LikesController < ApplicationController
         else
              Like.delete(k.first.id)
         end
-        redirect_to post_path(@likeable)
+        redirect_to request.referrer
     end
     private
         def like_params
