@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :friendships
   has_many :friend_requests
   has_many :friends, through: :friendships
+  has_many :requesters, through: :friend_requests
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 end

@@ -24,7 +24,7 @@
   <%= form.hidden_field :user_id, value: current_user.id %>
   <%= form.hidden_field :likeable_id, value: @post.id %>
   <%= form.hidden_field :likeable_type, value: 'Post' %>
-
+  
     <%= form.submit "Like" %>
   </p>
 <% end %>

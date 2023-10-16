@@ -1,12 +1,11 @@
 class CommentsController < ApplicationController
     def create
-      @commentable = find_commentable
-      @comment = @commentable.comments.build(comment_params)
-      @comment.user = current_user
+      @comment = Comment.new(comment_params)
+      # @comment.user = current_user
   
       if @comment.save
         respond_to do |format|
-          format.html { redirect_to @commentable }
+          format.html { redirect_to request.referrer }
           format.js
         end
       else
@@ -19,16 +18,7 @@ class CommentsController < ApplicationController
     private
   
     def comment_params
-      params.require(:comment).permit(:body)
-    end
-  
-    def find_commentable
-      params.each do |name, value|
-        if name =~ /(.+)_id$/
-          return $1.classify.constantize.find(value)
-        end
-      end
-      nil
+      params.require(:comment).permit(:body, :commentable_type, :commentable_id, :user_id)
     end
   end
   

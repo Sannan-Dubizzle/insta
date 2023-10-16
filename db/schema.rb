@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_110639) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_124204) do
   create_table "comments", charset: "utf8mb3", force: :cascade do |t|
     t.text "body"
     t.bigint "commentable_id", null: false
@@ -23,12 +23,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_110639) do
   end
 
   create_table "friend_requests", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "user1_id"
-    t.bigint "user2_id"
+    t.bigint "user_id"
+    t.bigint "requester_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user1_id"], name: "index_friend_requests_on_user1_id"
-    t.index ["user2_id"], name: "index_friend_requests_on_user2_id"
+    t.boolean "isPending", default: true
+    t.index ["requester_id"], name: "index_friend_requests_on_requester_id"
+    t.index ["user_id"], name: "index_friend_requests_on_user_id"
   end
 
   create_table "friendships", charset: "utf8mb3", force: :cascade do |t|
@@ -72,8 +73,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_16_110639) do
   end
 
   add_foreign_key "comments", "users"
-  add_foreign_key "friend_requests", "users", column: "user1_id"
-  add_foreign_key "friend_requests", "users", column: "user2_id"
+  add_foreign_key "friend_requests", "users"
+  add_foreign_key "friend_requests", "users", column: "requester_id"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
   add_foreign_key "likes", "users"

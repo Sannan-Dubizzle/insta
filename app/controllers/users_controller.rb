@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     @users = User.all
   end
   def show
-    @person = User.find(params[:id].to_i)
+    @person = User.find(params.permit(:id)[:id].to_i)
     @posts = @person.posts
     # friends = []
 
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
     # end
 
     @friends = @person.friends
-    @requests =FriendRequest.where('user2_id = ?', @person.id)
+    @requests =@person.friend_requests.where(isPending: true)
 
   end
 end

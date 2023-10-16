@@ -3,10 +3,10 @@
 <p>Already Friends</p>
 <%else%>
 <% if current_user.id != params[:id].to_i%>
-<% if !FriendRequest.where('user1_id = ? AND user2_id = ?', current_user.id, @person.id).empty? %>
-<p>friend request sent </p>
-<% elsif !FriendRequest.where('user1_id = ? OR user2_id = ?', @person.id, current_user.id).empty?%>
+<% if !FriendRequest.where('user_id = ? AND requester_id = ?', current_user.id, @person.id).empty? %>
 <%= link_to 'Accept Request', accept_request_path(user_id: @person.id)%>
+<% elsif !FriendRequest.where('user_id = ? OR requester_id = ?', @person.id, current_user.id).empty?%>
+<p>friend request sent </p>
 <%else%>
 <%=link_to 'Add Friend', new_user_friend_request_path(user_id: @person.id)%>
 <%end%>
@@ -31,7 +31,7 @@
 <ul>
   <% @requests.each do |request| %>
     <li>
-      <p><%=link_to request.user1.name, request.user1%><p>
+      <p><%=link_to request.requester.name, request.requester%><p>
     </li>
   <% end %>
 </ul>

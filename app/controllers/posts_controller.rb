@@ -4,7 +4,7 @@ class PostsController < ApplicationController
       @posts = Post.where("user_id = ? OR user_id IN (?)", current_user.id, @friends).order(updated_at: :DESC )
     end
     def show
-        @post = Post.find(params[:id])
+        @post = Post.find(params.permit(:id)[:id])
     end
     def new
         @post = Post.new
@@ -19,11 +19,11 @@ class PostsController < ApplicationController
         end
     end
     def edit
-        @post = Post.find(params[:id])
+        @post = Post.find(params.permit(:id)[:id])
     end
     
     def update
-        @post = Post.find(params[:id])
+        @post = Post.find(params.permit(:id)[:id])
     
         if @post.update(posts_params)
           redirect_to @post
@@ -32,7 +32,7 @@ class PostsController < ApplicationController
         end
     end
     def destroy
-        @post = Post.find(params[:id])
+        @post = Post.find(params.permit(:id)[:id])
         @post.destroy
     
         redirect_to root_path, status: :see_other

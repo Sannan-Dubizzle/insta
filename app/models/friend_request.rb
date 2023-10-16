@@ -1,4 +1,4 @@
 class FriendRequest < ApplicationRecord
-    belongs_to :user1, class_name: 'User'
-    belongs_to :user2, class_name: 'User'
+    belongs_to :user
+    belongs_to :requester, class_name: 'User', foreign_key: 'requester_id'
   end
