@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_15_151413) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_15_182721) do
   create_table "comments", charset: "utf8mb3", force: :cascade do |t|
     t.text "body"
     t.bigint "commentable_id", null: false
@@ -71,7 +71,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_15_151413) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "comments", "posts", column: "commentable_id"
   add_foreign_key "comments", "users"
   add_foreign_key "friend_requests", "users", column: "user1_id"
   add_foreign_key "friend_requests", "users", column: "user2_id"

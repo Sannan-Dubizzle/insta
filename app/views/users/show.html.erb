@@ -1,4 +1,7 @@
 <h1><%=@person.name%></h1>
+<%if @friends.include?(current_user) %>
+<p>Already Friends</p>
+<%else%>
 <% if current_user.id != params[:id].to_i%>
 <% if !FriendRequest.where('user1_id = ? AND user2_id = ?', current_user.id, @person.id).empty? %>
 <p>friend request sent </p>
@@ -6,6 +9,7 @@
 <%= link_to 'Accept Request', accept_request_path(user_id: @person.id)%>
 <%else%>
 <%=link_to 'Add Friend', new_user_friend_request_path(user_id: @person.id)%>
+<%end%>
 <%end%>
 <%end%>
 <ul>

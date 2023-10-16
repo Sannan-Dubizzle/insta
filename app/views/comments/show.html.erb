@@ -1,7 +1,16 @@
 <h3><%=@comment.user.name%><sub><%=@comment.created_at%></sub></h3>
 
 <p><%=@comment.body%></p>
-<h2>Comments</h2>
+<%= form_with model: [ @comment, @comment.likes.build ] do |form| %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :likeable_id, value: @comment.id %>
+  <%= form.hidden_field :likeable_type, value: 'Comment' %>
+
+    <%= form.submit "Like" %>
+  </p>
+<% end %>
+<p><%=@comment.likes.count%></p>
+<h2>Replies</h2>
 <% @comment.comments.each do |comment| %>
   <p>
     <strong>Commenter:</strong>
@@ -11,6 +20,19 @@
   <p>
     <strong>Comment:</strong>
     <%=comment.body%>
+  </p>
+<% end %>
+<h4>Reply:</h4>
+<%= form_with model: [ @comment, @comment.comments.build ] do |form| %>
+  <p>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+  </p>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :commentable_id, value: @comment.id %>
+  <%= form.hidden_field :commentable_type, value: 'Comment' %>
+
+    <%= form.submit %>
   </p>
 <% end %>
 

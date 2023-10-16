@@ -11,7 +11,12 @@ Rails.application.routes.draw do
     resources :comments
     resources :likes
   end
+  resources :comments do
+    resources :comments
+    resources :likes
+  end
   get '/friend_requests/accept/:user_id', to: 'friend_requests#accept', as: 'accept_request'
+  #post 'posts/:post_id/comments/:id', to: 'comments#create', as: 'comment_comments'
   
   # Defines the root path route ("/")
   # root "articles#index"
