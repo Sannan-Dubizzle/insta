@@ -5,8 +5,10 @@ class FriendRequestsController < ApplicationController
         redirect_to user_path(@user)
     end
     def accept
-        request = FriendRequest.where('user1_id = ?', params[:user_id].to_i).first
-        FriendRequest.delete(request.id)
-        Friendship.create(user1_id: current_user.id, user2_id:params[:user_id].to_i )
+        requester = FriendRequest.where('user1_id = ? AND user2_id = ?', params[:user_id].to_i,current_user.id).first
+        FriendRequest.delete(requester.id)
+        Friendship.create(user_id: current_user.id, friend_id:params[:user_id].to_i )
+        Friendship.create(user_id: params[:user_id].to_i, friend_id: current_user.id)
+        redirect_to request.referrer
     end
 end

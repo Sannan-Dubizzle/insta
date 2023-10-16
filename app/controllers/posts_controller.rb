@@ -1,16 +1,6 @@
 class PostsController < ApplicationController
     def index
-      friends = []
-
-      Friendship.where('user1_id = ? OR user2_id = ?', current_user.id, current_user.id).each do |friend|
-        if friend.user1_id == current_user.id
-          friends << User.find(friend.user2_id).id
-        else
-          friends << User.find(friend.user1_id).id
-        end
-      end
-  
-      @friends = friends.uniq 
+      @friends = current_user.friends.pluck(:id)
       @posts = Post.where("user_id = ? OR user_id IN (?)", current_user.id, @friends).order(updated_at: :DESC )
     end
     def show
