@@ -1,10 +1,10 @@
 class LikesController < ApplicationController
     def create
-        k = Like.where(like_params)
-        if k.empty?
+        alreadyLiked = Like.where(like_params)
+        if alreadyLiked.empty?
             Like.create(like_params)
         else
-             Like.delete(k.first.id)
+             Like.delete(alreadyLiked.first.id)
         end
         redirect_to request.referrer
     end
