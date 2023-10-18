@@ -10,39 +10,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_12_131542) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_124204) do
   create_table "comments", charset: "utf8mb3", force: :cascade do |t|
     t.text "body"
-    t.bigint "person_id", null: false
     t.bigint "commentable_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "commentable_type"
+    t.bigint "user_id"
     t.index ["commentable_id"], name: "index_comments_on_commentable_id"
-    t.index ["person_id"], name: "index_comments_on_person_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "friend_requests", charset: "utf8mb3", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "requester_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "isPending", default: true
+    t.index ["requester_id"], name: "index_friend_requests_on_requester_id"
+    t.index ["user_id"], name: "index_friend_requests_on_user_id"
   end
 
   create_table "friendships", charset: "utf8mb3", force: :cascade do |t|
-    t.bigint "person1_id"
-    t.bigint "person2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["person1_id"], name: "index_friendships_on_person1_id"
-    t.index ["person2_id"], name: "index_friendships_on_person2_id"
+    t.bigint "user_id"
+    t.bigint "friend_id"
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
-  create_table "people", charset: "utf8mb3", force: :cascade do |t|
-    t.string "name"
+  create_table "likes", charset: "utf8mb3", force: :cascade do |t|
+    t.string "likeable_type", null: false
+    t.bigint "likeable_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "posts", charset: "utf8mb3", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "person_id"
-    t.index ["person_id"], name: "index_posts_on_person_id"
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
@@ -53,13 +67,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_12_131542) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "comments", "people"
-  add_foreign_key "comments", "posts", column: "commentable_id"
-  add_foreign_key "friendships", "people", column: "person1_id"
-  add_foreign_key "friendships", "people", column: "person2_id"
-  add_foreign_key "posts", "people"
+  add_foreign_key "comments", "users"
+  add_foreign_key "friend_requests", "users"
+  add_foreign_key "friend_requests", "users", column: "requester_id"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "likes", "users"
+  add_foreign_key "posts", "users"
 end

@@ -1,26 +1,41 @@
-<h3><%=@post.person.name%><sub><%=@post.created_at%></sub></h3>
+<h3><%=@post.user.name%><sub><%=@post.created_at%></sub></h3>
 
 <p><%=@post.body%></p>
 <h2>Comments</h2>
 <% @post.comments.each do |comment| %>
   <p>
     <strong>Commenter:</strong>
-    <%= comment.person.name %>
+    <%=link_to comment.user.name,user_path(comment.user_id) %>
   </p>
 
   <p>
     <strong>Comment:</strong>
-    <%=link_to comment.body, post_comment_path(@post, comment)%>
+    <%=link_to comment.body, comment%>
   </p>
 <% end %>
-
+<ul>
+  <li><%= link_to "Edit", edit_post_path(@post) %></li>
+  <li><%= link_to "Delete", post_path(@post), data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>
+<%= form_with model: [ @post, @post.likes.build ] do |form| %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+  <%= form.hidden_field :likeable_id, value: @post.id %>
+  <%= form.hidden_field :likeable_type, value: 'Post' %>
+  
+    <%= form.submit "Like" %>
+  </p>
+<% end %>
+<p><%=@post.likes.count%></p>
 <h4>Add a comment:</h4>
 <%= form_with model: [ @post, @post.comments.build ] do |form| %>
   <p>
     <%= form.label :body %><br>
     <%= form.text_area :body %>
   </p>
-  <%= form.hidden_field :person_id, value: @post.person.id %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
   <%= form.hidden_field :commentable_id, value: @post.id %>
   <%= form.hidden_field :commentable_type, value: 'Post' %>
 
